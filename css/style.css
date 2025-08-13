@@ -1,78 +1,183 @@
+/* ===== Reset & Body ===== */
 body {
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background: #f8f8f8;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
+/* ===== Header ===== */
 header {
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
+/* ===== Navigation (for login/registration page bottom nav) ===== */
+nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* ===== Forms (Registration, Login, Add Transaction) ===== */
 form {
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
-  width: 100%;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: auto;
 }
 
 .form-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 label {
-  width: 120px;
-  font-weight: bold;
-  text-align: right;
-  padding-right: 8px;
+    flex: 1;
+    font-weight: bold;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="password"] {
-  flex: 1;
-  padding: 8px 5px;
-  border: none;
-  border-bottom: 2px solid gray;
-  background: transparent;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
+input, select, button {
+    flex: 2;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus,
-input[type="password"]:focus {
-  border-bottom-color: #007BFF;
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-button[type="submit"] {
-  margin-left: 128px; /* aligns with inputs */
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+button:hover {
+    background: #0056b3;
 }
 
-button[type="submit"]:hover {
-  background-color: #0056b3;
+/* ===== Filters (Reports Page) ===== */
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 
-nav {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-top: 20px;
-    font-size: 14px;
+.filters label {
+    font-weight: bold;
 }
+
+.filters input, 
+.filters select, 
+.filters button {
+    padding: 5px;
+}
+
+/* ===== Summary Cards (Dashboard / Reports) ===== */
+.summary {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.card {
+    flex: 1 1 200px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    min-width: 150px;
+}
+
+/* ===== Graphs (Reports Page) ===== */
+.graphs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.graph {
+    background: #ddd;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* ===== Sidebar & Hamburger Menu ===== */
+#menu-toggle {
+    display: none;
+}
+
+.menu-icon {
+    display: none;
+    font-size: 24px;
+    padding: 10px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 220px;
+    background: #333;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    transition: left 0.3s ease;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background: #575757;
+}
+
+/* Main content */
+main {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+/* ===== Responsive ===== */
+@media screen and (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .sidebar {
+        left: -220px;
+    }
+
+    #menu-toggle:checked + .menu-icon + #sidebar-container .sidebar {
+        left: 0;
+    }
+
+    main {
+        margin-left: 0;
+    }
+}
+
+
 
 
