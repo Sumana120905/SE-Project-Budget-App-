@@ -159,6 +159,20 @@ main {
     padding: 20px;
 }
 
+/* ===== Settings Sections ===== */
+.settings-section {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.settings-section h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+
 /* ===== Responsive ===== */
 @media screen and (max-width: 768px) {
     .menu-icon {
