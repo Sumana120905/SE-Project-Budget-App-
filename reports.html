@@ -1,62 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Reports</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header><h1>Reports</h1></header>
 
-    <header>
-        <h1>Reports</h1>
-    </header>
-
-    <!-- Filters Section -->
+  <main>
+    <!-- Filters -->
     <section class="filters">
-        <label for="dateRange">Date Range:</label>
-        <input type="date" id="startDate">
-        <input type="date" id="endDate">
+      <label for="report-month">Month:</label>
+      <input type="month" id="report-month">
 
-        <label for="category">Category:</label>
-        <select id="category">
-            <option value="">All</option>
-            <option value="Food">Food</option>
-            <option value="Housing">Housing</option>
-            <option value="Transportation">Transportation</option>
-            <option value="Income">Income</option>
-        </select>
-
-        <button>Apply</button>
-        <button class="reset">Reset</button>
+      <button id="generate-report">Generate</button>
     </section>
 
     <!-- Summary Cards -->
     <section class="summary">
-        <div class="card">
-            <h3>Total Income</h3>
-            <p>$0.00</p>
-        </div>
-        <div class="card">
-            <h3>Total Expenses</h3>
-            <p>$0.00</p>
-        </div>
-        <div class="card">
-            <h3>Net Balance</h3>
-            <p>$0.00</p>
-        </div>
-        <div class="card">
-            <h3>Top Category</h3>
-            <p>None</p>
-        </div>
+      <div class="card">
+        <h3>Total Income</h3>
+        <p id="report-income">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Total Expenses</h3>
+        <p id="report-expenses">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Balance</h3>
+        <p id="report-balance">₹0</p>
+      </div>
     </section>
 
-    <!-- Graphs Section -->
+    <!-- Graphs (placeholders) -->
     <section class="graphs">
-        <div class="graph">Pie Chart Placeholder</div>
-        <div class="graph">Line Chart Placeholder</div>
-        <div class="graph">Bar Chart Placeholder</div>
+      <div class="graph" id="pie-chart">Pie Chart</div>
+      <div class="graph" id="bar-chart">Bar Chart</div>
     </section>
+  </main>
 
+  <script src="js/script.js"></script>
 </body>
 </html>
+

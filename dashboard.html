@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Sidebar will be included by backend, not hardcoded -->
+  <header><h1>Dashboard</h1></header>
 
-    <main>
-        <header>
-            <h1>Dashboard</h1>
-        </header>
+  <main>
+    <!-- Summary Cards -->
+    <section class="summary">
+      <div class="card">
+        <h3>Total Income</h3>
+        <p id="total-income">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Total Expenses</h3>
+        <p id="total-expenses">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Balance</h3>
+        <p id="balance">₹0</p>
+      </div>
+    </section>
 
-        <!-- Summary Cards -->
-        <section class="summary">
-            <div class="card">
-                <h3>Total Income</h3>
-                <p>$5000</p>
-            </div>
-            <div class="card">
-                <h3>Total Expenses</h3>
-                <p>$3200</p>
-            </div>
-            <div class="card">
-                <h3>Balance</h3>
-                <p>$1800</p>
-            </div>
-        </section>
+    <!-- Recent Transactions -->
+    <section>
+      <h2>Recent Transactions</h2>
+      <ul id="recent-transactions">
+        <!-- JS will fill this -->
+      </ul>
+    </section>
+  </main>
 
-        <!-- Graphs Section -->
-        <section class="graphs">
-            <div class="graph">Income vs Expense Graph</div>
-            <div class="graph">Category-wise Breakdown</div>
-        </section>
-    </main>
+  <script src="js/script.js"></script>
 </body>
 </html>
+

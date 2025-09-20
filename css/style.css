@@ -1,8 +1,21 @@
+/* ===== Theme Variables (Cool Tone) ===== */
+:root {
+    --primary: #006d77;       /* Teal */
+    --primary-dark: #004c4c;  /* Dark Teal */
+    --bg: #f0f4f8;            /* Light cool background */
+    --card-bg: #e6f2f3;       /* Soft teal card background */
+    --text: #333;             /* Default text */
+    --sidebar-bg: #006d77;    /* Sidebar teal */
+    --sidebar-hover: #004c4c; /* Sidebar hover */
+}
+
 /* ===== Reset & Body ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     padding: 20px;
+    background: var(--bg);
+    color: var(--text);
 }
 
 /* ===== Header ===== */
@@ -38,7 +51,7 @@ label {
     font-weight: bold;
 }
 
-input, select, button {
+input, select, button, textarea {
     flex: 2;
     padding: 8px;
     border: 1px solid #ccc;
@@ -47,14 +60,14 @@ input, select, button {
 }
 
 button {
-    background: #007bff;
+    background: var(--primary);
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background: #0056b3;
+    background: var(--primary-dark);
 }
 
 /* ===== Filters (Reports Page) ===== */
@@ -87,7 +100,7 @@ button:hover {
 
 .card {
     flex: 1 1 200px;
-    background: #f4f4f4;
+    background: var(--card-bg);
     padding: 15px;
     border-radius: 5px;
     text-align: center;
@@ -102,12 +115,13 @@ button:hover {
 }
 
 .graph {
-    background: #ddd;
+    background: #cfe2e2; /* slightly different teal tone */
     height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    border-radius: 5px;
 }
 
 /* ===== Sidebar & Hamburger Menu ===== */
@@ -119,7 +133,7 @@ button:hover {
     display: none;
     font-size: 24px;
     padding: 10px;
-    background: #333;
+    background: var(--sidebar-bg);
     color: white;
     cursor: pointer;
 }
@@ -127,7 +141,7 @@ button:hover {
 /* Sidebar styling */
 .sidebar {
     width: 220px;
-    background: #333;
+    background: var(--sidebar-bg);
     color: white;
     height: 100vh;
     position: fixed;
@@ -150,7 +164,7 @@ button:hover {
 }
 
 .sidebar a:hover {
-    background: #575757;
+    background: var(--sidebar-hover);
 }
 
 /* Main content */
@@ -172,7 +186,6 @@ main {
     margin-bottom: 15px;
 }
 
-
 /* ===== Responsive ===== */
 @media screen and (max-width: 768px) {
     .menu-icon {
@@ -191,7 +204,3 @@ main {
         margin-left: 0;
     }
 }
-
-
-
-
