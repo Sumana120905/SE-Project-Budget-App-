@@ -6,18 +6,19 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <button id="menu-btn" class="menu-btn">☰</button>
+  <div id="sidebar-container"></div>
+  <div id="overlay"></div>
+
   <header><h1>Reports</h1></header>
 
   <main>
-    <!-- Filters -->
     <section class="filters">
       <label for="report-month">Month:</label>
       <input type="month" id="report-month">
-
       <button id="generate-report">Generate</button>
     </section>
 
-    <!-- Summary Cards -->
     <section class="summary">
       <div class="card">
         <h3>Total Income</h3>
@@ -33,7 +34,6 @@
       </div>
     </section>
 
-    <!-- Graphs (placeholders) -->
     <section class="graphs">
       <div class="graph" id="pie-chart">Pie Chart</div>
       <div class="graph" id="bar-chart">Bar Chart</div>
@@ -43,4 +43,3 @@
   <script src="js/script.js"></script>
 </body>
 </html>
-

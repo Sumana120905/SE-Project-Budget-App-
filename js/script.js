@@ -90,4 +90,29 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "login.html";
         });
     }
+
+    // ===== Sidebar Load & Toggle =====
+    const sidebarContainer = document.getElementById("sidebar-container");
+    const menuBtn = document.getElementById("menu-btn");
+    const overlay = document.getElementById("overlay");
+
+    if (sidebarContainer) {
+        fetch("sidebar.html")
+            .then(response => response.text())
+            .then(data => {
+                sidebarContainer.innerHTML = data;
+
+                const sidebar = document.querySelector(".sidebar");
+
+                const toggleSidebar = () => {
+                    sidebar.classList.toggle("active");
+                    overlay.classList.toggle("show");
+                };
+
+                if (menuBtn) menuBtn.addEventListener("click", toggleSidebar);
+                if (overlay) overlay.addEventListener("click", toggleSidebar);
+            })
+            .catch(err => console.error("Error loading sidebar:", err));
+    }
 });
+

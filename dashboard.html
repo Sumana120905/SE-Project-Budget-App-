@@ -6,10 +6,14 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Hamburger Menu -->
+  <button id="menu-btn" class="menu-btn">☰</button>
+  <div id="sidebar-container"></div>
+  <div id="overlay"></div>
+
   <header><h1>Dashboard</h1></header>
 
   <main>
-    <!-- Summary Cards -->
     <section class="summary">
       <div class="card">
         <h3>Total Income</h3>
@@ -25,16 +29,12 @@
       </div>
     </section>
 
-    <!-- Recent Transactions -->
     <section>
       <h2>Recent Transactions</h2>
-      <ul id="recent-transactions">
-        <!-- JS will fill this -->
-      </ul>
+      <ul id="recent-transactions"></ul>
     </section>
   </main>
 
   <script src="js/script.js"></script>
 </body>
 </html>
-
