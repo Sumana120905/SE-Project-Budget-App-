@@ -24,12 +24,13 @@ header {
     margin-bottom: 20px;
 }
 
-/* ===== Navigation (for login/registration page bottom nav) ===== */
-nav {
+/* ===== Bottom Navigation (Login/Register only) ===== */
+nav.bottom-nav {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
+
 
 /* ===== Forms (Registration, Login, Add Transaction) ===== */
 form {
