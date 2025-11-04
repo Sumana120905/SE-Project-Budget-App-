@@ -11,8 +11,6 @@
   <div id="overlay"></div>
 
   <header><h1>Reports</h1></header>
-  <div id="sidebar-container"></div>
-
 
   <main>
     <section class="filters">
@@ -37,11 +35,19 @@
     </section>
 
     <section class="graphs">
-      <div class="graph" id="pie-chart">Pie Chart</div>
-      <div class="graph" id="bar-chart">Bar Chart</div>
+      <div class="graph">
+        <canvas id="pie-chart"></canvas>
+      </div>
+      <div class="graph">
+        <canvas id="bar-chart"></canvas>
+      </div>
     </section>
   </main>
 
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
+
+
