@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Redirect to login if user is not logged in
+    if (window.location.pathname.endsWith("dashboard.html") && !localStorage.getItem("loggedInUser")) {
+    window.location.href = "login.html";
+    }
 
     // ===== Notification Helper =====
     function showNotification(title, message) {
@@ -14,6 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (Notification.permission === "default") {
             await Notification.requestPermission();
         }
+    }
+
+    // ===== Password Hashing Helper =====
+    async function hashPassword(password) {
+        const msgUint8 = new TextEncoder().encode(password);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
     }
 
     // ===== Utility: Try Backend Fetch or Fallback to LocalStorage =====
@@ -47,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function applyTheme(theme) {
         const body = document.body;
         body.classList.remove("theme-default", "theme-cool", "theme-dark");
-
         switch (theme) {
             case "cool": body.classList.add("theme-cool"); break;
             case "dark": body.classList.add("theme-dark"); break;
@@ -55,50 +66,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Load saved settings
+    // Load settings on startup
     const savedSettings = JSON.parse(localStorage.getItem("settings"));
     if (savedSettings) {
         applyTheme(savedSettings.theme || "default");
-        if (savedSettings.notifications) console.log("🔔 Notifications enabled!");
-    }
-
-    // ===== Password Eye Toggle (Login + Register) =====
-    const passwordField = document.getElementById("password");
-    if (passwordField) {
-        const toggleBtn = document.createElement("span");
-        toggleBtn.textContent = "👁️";
-        toggleBtn.style.cursor = "pointer";
-        toggleBtn.style.marginLeft = "10px";
-        toggleBtn.addEventListener("click", () => {
-            passwordField.type = passwordField.type === "password" ? "text" : "password";
-        });
-        passwordField.insertAdjacentElement("afterend", toggleBtn);
-    }
-
-    // ===== Login =====
-    const loginForm = document.getElementById("login-form");
-    if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-
-            if (!username || !password) return alert("Please enter both username and password.");
-
-            const user = JSON.parse(localStorage.getItem("user"));
-            if (user && username === user.email && password === user.password) {
-                alert("Login successful!");
-                window.location.href = "dashboard.html";
-            } else {
-                alert("Invalid username or password.");
-            }
-        });
+        if (savedSettings.notifications) {
+            requestNotificationPermission();
+        }
     }
 
     // ===== Registration =====
     const registerForm = document.getElementById("register-form");
     if (registerForm) {
-        registerForm.addEventListener("submit", (e) => {
+        registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const name = document.getElementById("name").value.trim();
             const email = document.getElementById("email").value.trim();
@@ -106,9 +86,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!name || !email || !password) return alert("All fields are required.");
 
-            localStorage.setItem("user", JSON.stringify({ name, email, password }));
+            const hashedPassword = await hashPassword(password);
+            localStorage.setItem("user", JSON.stringify({ name, email, password: hashedPassword }));
+
             alert("Registration successful! You can now log in.");
             window.location.href = "login.html";
+        });
+    }
+
+    // ===== Login =====
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (!username || !password) return alert("Please enter both username and password.");
+
+            const savedUser = JSON.parse(localStorage.getItem("user"));
+            if (!savedUser) return alert("No registered user found. Please register first.");
+
+            const hashedPassword = await hashPassword(password);
+
+            if (username === savedUser.email && hashedPassword === savedUser.password) {
+                localStorage.setItem("loggedInUser", savedUser.email);
+                alert("Login successful!");
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Invalid username or password.");
+            }
         });
     }
 
@@ -141,11 +148,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const category = document.getElementById("category").value;
             const date = document.getElementById("date").value;
 
-            if (!type || !amount || !category || !date) return alert("Please fill all fields.");
+            if (!type || !amount || !category || !date)
+                return alert("Please fill all fields.");
 
             const newTransaction = { type, amount, category, date };
             await saveTransaction(newTransaction);
-
             alert("Transaction added!");
             transactionForm.reset();
             categorySelect.innerHTML = '<option value="">Select a type first</option>';
@@ -196,17 +203,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (settingsForm) {
         const themeSelect = document.getElementById("theme");
         const notifCheckbox = document.getElementById("notifications");
-        const clearDataBtn = document.createElement("button");
-        clearDataBtn.textContent = "🧹 Clear All Data";
-        clearDataBtn.type = "button";
-        clearDataBtn.style.marginTop = "15px";
-        settingsForm.appendChild(clearDataBtn);
 
-        // preload settings
         if (savedSettings) {
             themeSelect.value = savedSettings.theme || "default";
             notifCheckbox.checked = savedSettings.notifications || false;
         }
+
+        // Add Reset Dummy Data button dynamically
+        const resetBtn = document.createElement("button");
+        resetBtn.textContent = "Reset Dummy Data";
+        resetBtn.type = "button";
+        resetBtn.style.marginTop = "10px";
+        settingsForm.appendChild(resetBtn);
+
+        resetBtn.addEventListener("click", () => {
+            localStorage.removeItem("transactions");
+            alert("All dummy transactions cleared!");
+            location.reload();
+        });
 
         settingsForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -215,23 +229,11 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("settings", JSON.stringify({ theme, notifications }));
             applyTheme(theme);
             alert("Settings saved successfully!");
-
             if (notifications) {
                 await requestNotificationPermission();
                 if (Notification.permission === "granted") {
-                    showNotification("Notifications Enabled", "You’ll now get alerts!");
-                } else if (Notification.permission === "denied") {
-                    alert("Browser notifications blocked.");
+                    showNotification("Notifications Enabled", "You’ll now get alerts for transactions and reports!");
                 }
-            }
-        });
-
-        // ===== Clear All Data Button =====
-        clearDataBtn.addEventListener("click", () => {
-            if (confirm("Are you sure? This will erase all your data!")) {
-                localStorage.clear();
-                alert("All data cleared!");
-                window.location.reload();
             }
         });
     }
@@ -240,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
-            localStorage.clear();
+            localStorage.removeItem("loggedInUser");
             alert("Logged out successfully!");
             window.location.href = "login.html";
         });
@@ -261,8 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     sidebar.classList.toggle("active");
                     overlay.classList.toggle("show");
                 };
-                if (menuBtn) menuBtn.addEventListener("click", toggleSidebar);
-                if (overlay) overlay.addEventListener("click", toggleSidebar);
+                menuBtn?.addEventListener("click", toggleSidebar);
+                overlay?.addEventListener("click", toggleSidebar);
             })
             .catch(err => console.error("Error loading sidebar:", err));
     }
@@ -302,7 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 data: {
                     labels: ["Income", "Expenses"],
                     datasets: [{ data: [totalIncome, totalExpense], backgroundColor: ["#00b894", "#d63031"] }]
-                }
+                },
+                options: { responsive: true }
             });
 
             const categoryTotals = {};
@@ -328,3 +331,12 @@ document.addEventListener("DOMContentLoaded", () => {
         generateBtn.addEventListener("click", generateReport);
     }
 });
+
+// ===== Register Service Worker =====
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js")
+    .then(() => console.log("✅ Service Worker Registered"))
+    .catch(err => console.error("❌ SW registration failed:", err));
+}
+
+
